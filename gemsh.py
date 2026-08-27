@@ -37,11 +37,38 @@ _revise_ = '27.08.2026'
 _author_ = 'Adelino Saldanha'
 _gmodel_ = 'gemini-3.6-flash'
 _apikey_ = ''
-dblrconn = ""
+dblrconn = ''
+_pydr3_ = False
 
 REQUIRED_PACKAGES = {
     'google.genai': 'google-genai',
 }
+#-----------------------------------------------------------
+kolor = {
+	'BOLD_WHITE':'\033[1;37m','BOLD_YELLOW':'\033[1;33m','BOLD_GREEN':'\033[1;32m','BOLD_BLUE':'\033[1;34m',
+	'BOLD_CYAN':'\033[1;36m','BOLD_RED':'\033[1;31m','BOLD_MAGENTA':'\033[1;35m','BOLD_BLACK':'\033[1;30m',
+	'WHITE':'\033[0;37m','YELLOW':'\033[0;33m','GREEN':'\033[0;32m','BLUE':'\033[0;34m','CYAN':'\033[0;36m',
+	'RED':'\033[0;31m','MAGENTA':'\033[0;35m','BLACK':'\033[0;30m',
+	'VIVID_RED':'\033[91m','VIVID_GREEN':'\033[92m','VIVID_YELLOW':'\033[93m','VIVID_BLUE':'\033[94m',
+	'VIVID_MAGENTA':'\033[95m','VIVID_CYAN':'\033[96m','VIVID_WHITE':'\033[97m',
+	'DARK_BLACK':'\033[30m','DARK_RED':'\033[31m','DARK_GREEN':'\033[32m','DARK_YELLOW':'\033[33m',
+	'DARK_BLUE':'\033[34m','DARK_MAGENTA':'\033[35m','DARK_CYAN':'\033[36m','DARK_WHITE':'\033[37m',
+	'DIM_BLACK':'\033[2;30m','DIM_RED':'\033[2;31m','DIM_GREEN':'\033[2;32m','DIM_YELLOW':'\033[2;33m',
+	'DIM_BLUE':'\033[2;34m','DIM_MAGENTA':'\033[2;35m','DIM_CYAN':'\033[2;36m','DIM_WHITE':'\033[2;37m',
+	'ORANGE': '\033[38;5;208m','OFF':'\033[0m','RESET':'\033[0m','SW_CRAWL': '\033[93m','SABER_BLUE': '\033[96m',
+    'GRAY': '\033[90m',
+    # Cores Google oficiais para o autómato do prompt
+    'G_BLUE': '\033[38;5;33m',
+    'G_RED': '\033[38;5;196m',
+    'G_YELLOW': '\033[38;5;220m',
+    'G_GREEN': '\033[38;5;46m'
+}
+#------------------------------------------------------------
+_pydr3_ = 'pydroid' in sys.executable.lower()
+if _pydr3_:
+    print(f"\n{kolor['RED']}[ERROR]{kolor['RESET']} System not supported.")
+    print(f"{kolor['YELLOW']}The system on which you are trying to run me is not (or not yet) supported.{kolor['RESET']}\n")
+    sys.exit(1)
 #------------------------------------------------------------
 def get_system_lang():
     try:
@@ -161,26 +188,7 @@ art_gem = [
 ]
 art_kx64 = [98,121,32,107,101,114,110,101,108,120,54,52]
 art_byas = [129150,32,98,121,32,65,83]
-#-----------------------------------------------------------
-kolor = {
-	'BOLD_WHITE':'\033[1;37m','BOLD_YELLOW':'\033[1;33m','BOLD_GREEN':'\033[1;32m','BOLD_BLUE':'\033[1;34m',
-	'BOLD_CYAN':'\033[1;36m','BOLD_RED':'\033[1;31m','BOLD_MAGENTA':'\033[1;35m','BOLD_BLACK':'\033[1;30m',
-	'WHITE':'\033[0;37m','YELLOW':'\033[0;33m','GREEN':'\033[0;32m','BLUE':'\033[0;34m','CYAN':'\033[0;36m',
-	'RED':'\033[0;31m','MAGENTA':'\033[0;35m','BLACK':'\033[0;30m',
-	'VIVID_RED':'\033[91m','VIVID_GREEN':'\033[92m','VIVID_YELLOW':'\033[93m','VIVID_BLUE':'\033[94m',
-	'VIVID_MAGENTA':'\033[95m','VIVID_CYAN':'\033[96m','VIVID_WHITE':'\033[97m',
-	'DARK_BLACK':'\033[30m','DARK_RED':'\033[31m','DARK_GREEN':'\033[32m','DARK_YELLOW':'\033[33m',
-	'DARK_BLUE':'\033[34m','DARK_MAGENTA':'\033[35m','DARK_CYAN':'\033[36m','DARK_WHITE':'\033[37m',
-	'DIM_BLACK':'\033[2;30m','DIM_RED':'\033[2;31m','DIM_GREEN':'\033[2;32m','DIM_YELLOW':'\033[2;33m',
-	'DIM_BLUE':'\033[2;34m','DIM_MAGENTA':'\033[2;35m','DIM_CYAN':'\033[2;36m','DIM_WHITE':'\033[2;37m',
-	'ORANGE': '\033[38;5;208m','OFF':'\033[0m','RESET':'\033[0m','SW_CRAWL': '\033[93m','SABER_BLUE': '\033[96m',
-    'GRAY': '\033[90m',
-    # Cores Google oficiais para o autómato do prompt
-    'G_BLUE': '\033[38;5;33m',
-    'G_RED': '\033[38;5;196m',
-    'G_YELLOW': '\033[38;5;220m',
-    'G_GREEN': '\033[38;5;46m'
-}
+
 #----------------------------------------------------
 core = {
     "intromsg": {
@@ -218,12 +226,12 @@ core = {
         "pt": ["A pensar", "A consultar a matriz neural", "A processar dados"]
     },
     "deactivate": {
-        "en": ["Deactivating neural connection..."],
-        "pt": ["A desativar a ligação neural..."]
+        "en": "Deactivating neural connection...",
+        "pt": "A desativar a ligação neural..."
     },
-    "ctrlc": {
-        "en": ["Interrupted by the user by CTRL+C ..."],
-        "pt": ["Interrompido pelo utilizador via Ctrl+C ..."]
+    "ctrl": {
+        "en": "Interrupted by the user by CTRL+C ...",
+        "pt": "Interrompido pelo utilizador via Ctrl+C ..."
     }
 }
 #----------------------------------------------------
@@ -343,6 +351,11 @@ def main():
                 print(f"{kolor['CYAN']}{website['home']}{kolor['RESET']}\n")
                 continue
 
+            if user_input.strip().lower() == "model":
+                print(f"\n{kolor['BOLD_YELLOW']}Gemini Model:{kolor['RESET']} {kolor['BOLD_WHITE']}{_gmodel_}{kolor['RESET']}")
+                print(f"{kolor['CYAN']}Is Google's high-efficiency workhorse multimodal AI model released in July 2026.{kolor['RESET']}\n")
+                continue
+
             if not user_input.strip():
                 continue
 
@@ -359,7 +372,7 @@ def main():
 
         except (KeyboardInterrupt, EOFError):
             try:
-                msg = random.choice(core['ctrlc'][active_lang])
+                msg = core['ctrl'][active_lang]
             except Exception:
                 msg = "Interrupted by user."
             print(f"\n{kolor['GRAY']}{msg}{kolor['RESET']}\n")
