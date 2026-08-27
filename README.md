@@ -51,3 +51,15 @@ Type exit, quit, q, or x to gracefully disconnect from the session.
 This project is open-source software licensed under the GNU General Public License v2.0. See the LICENSE file for more details.
 
 "While you charge for the fish, I still hold the deed to the sea." — Adelino Saldanha
+
+---
+
+## 🖼️ Visual Showcase
+
+*Running `gemsh` inside the visually stunning Ghostty terminal.*
+
+### 1. Initialization & Multilingual Detection
+![gemsh running in Ghostty - Initialization](assets/screenshot_1.png)
+
+### 2. Neural Interaction & Haiku Generation
+![gemsh running in Ghostty - Interaction](assets/screenshot_2.png)
