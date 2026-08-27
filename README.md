@@ -45,6 +45,8 @@ Type your prompt naturally to interact with the neural matrix.
 
 Type author to view project details and creator information.
 
+Type model to display the current using Gemini Model along with a brief description of the model's capabilities and release context.
+
 Type exit, quit, q, or x to gracefully disconnect from the session.
 
 📜 License
