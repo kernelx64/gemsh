@@ -358,9 +358,14 @@ def main():
             print(f"\n{kolor['VIVID_WHITE']}{response.text}{kolor['RESET']}\n")
 
         except (KeyboardInterrupt, EOFError):
-            print(f"\n{kolor['GRAY']}{random.choice(core['ctrlc'][active_lang])}{kolor['RESET']}\n")
+            try:
+                msg = random.choice(core['ctrlc'][active_lang])
+            except Exception:
+                msg = "Interrupted by user."
+            print(f"\n{kolor['GRAY']}{msg}{kolor['RESET']}\n")
             break
 
+#-----------------------------------------------------------
 if __name__ == "__main__":
     main()
     globals().clear()
